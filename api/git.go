@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"os/exec"
 	"path"
@@ -17,7 +18,20 @@ type GitContentAPI struct {
 }
 
 func (gci GitContentAPI) ByUUID(uuid string) (bool, Content) {
-	panic("")
+	var content Content
+	log.Print("Something")
+	bytes, err := ioutil.ReadFile(path.Join(gci.dir, fmt.Sprintf("%s.json", uuid)))
+	if err != nil {
+		panic(err)
+		return false, Content{}
+	}
+	err = json.Unmarshal(bytes, &content)
+	if err != nil {
+		panic(err)
+		return false, Content{}
+	}
+
+	return true, content
 }
 
 func (gci GitContentAPI) Write(c Content) error {
@@ -108,9 +122,9 @@ func (gci GitContentAPI) All(stop chan struct{}) (chan Content, error) {
 
 func NewGitContentAPI() (ContentAPI, error) {
 	api := GitContentAPI{"/tmp/gitapi/"}
-	err := api.Drop() //TODO: don't drop every time once things are stable.
-	if err != nil {
-		return nil, err
-	}
+	//err := api.init() //TODO: don't drop every time once things are stable.
+	//if err != nil {
+	//	return nil, err
+	//}
 	return api, nil
 }

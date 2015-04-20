@@ -38,7 +38,7 @@ func main() {
 	logEndpointsAndRegisterHandlers(m, "/content/{uuid}", ah.uuidReadHandler, "GET")
 	logEndpointsAndRegisterHandlers(m, "/content/{uuid}", ah.idWriteHandler, "PUT")
 	logEndpointsAndRegisterHandlers(m, "/content/", ah.dropHandler, "DELETE")
-	logEndpointsAndRegisterHandlers(m, "/content/", ah.dumpAll, "GET")
+	//logEndpointsAndRegisterHandlers(m, "/content/", ah.dumpAll, "GET")
 
 	//m.HandleFunc("/content/recent", ah.recentHandler).Methods("GET")
 	//m.HandleFunc("/content/count", ah.countHandler).Methods("GET")
