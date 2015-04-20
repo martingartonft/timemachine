@@ -11,6 +11,7 @@ import (
 	"os/exec"
 	"path"
 	"strings"
+	"time"
 )
 
 type GitContentAPI struct {
@@ -32,6 +33,10 @@ func (gci GitContentAPI) ByUUID(uuid string) (bool, Content) {
 	}
 
 	return true, content
+}
+
+func (gci GitContentAPI) ByUUIDAndDate(id string, dateTime time.Time) (bool, Content) {
+	return gci.ByUUID(id)
 }
 
 func (gci GitContentAPI) Write(c Content) error {
