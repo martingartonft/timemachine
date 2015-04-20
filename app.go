@@ -33,16 +33,24 @@ func main() {
 	m := mux.NewRouter()
 	http.Handle("/", handlers.CombinedLoggingHandler(os.Stdout, m))
 
-	m.HandleFunc("/content/recent", ah.recentHandler).Methods("GET")
-	m.HandleFunc("/content/count", ah.countHandler).Methods("GET")
-	m.HandleFunc("/content/{uuid}", ah.uuidReadHandler).Methods("GET")
-	m.HandleFunc("/content/{uuid}", ah.idWriteHandler).Methods("PUT")
-	m.HandleFunc("/content/", ah.dropHandler).Methods("DELETE")
-	m.HandleFunc("/content/", ah.dumpAll).Methods("GET")
+	logEndpointsAndRegisterHandlers(m, "/content/recent", ah.recentHandler, "GET")
+	logEndpointsAndRegisterHandlers(m, "/content/count", ah.countHandler, "GET")
+	logEndpointsAndRegisterHandlers(m, "/content/content/{uuid}", ah.uuidReadHandler, "GET")
+	logEndpointsAndRegisterHandlers(m, "/content/content/{uuid}", ah.idWriteHandler, "PUT")
+	logEndpointsAndRegisterHandlers(m, "/content/", ah.dropHandler, "DELETE")
+	logEndpointsAndRegisterHandlers(m, "/content/", ah.dumpAll, "GET")
+
+	//m.HandleFunc("/content/recent", ah.recentHandler).Methods("GET")
+	//m.HandleFunc("/content/count", ah.countHandler).Methods("GET")
+	//m.HandleFunc("/content/{uuid}", ah.uuidReadHandler).Methods("GET")
+	//m.HandleFunc("/content/{uuid}", ah.idWriteHandler).Methods("PUT")
+	//m.HandleFunc("/content/", ah.dropHandler).Methods("DELETE")
+	//m.HandleFunc("/content/", ah.dumpAll).Methods("GET")
 
 	go func() {
-		fmt.Printf("listening..")
-		err = http.ListenAndServe(":8082", nil)
+		port := "8082"
+		fmt.Printf("listening on port: %s ...", port)
+		err = http.ListenAndServe(":"+port, nil)
 		if err != nil {
 			log.Printf("web stuff failed: %v\n", err)
 		}
@@ -65,6 +73,11 @@ func main() {
 	f.Close()
 
 	return
+}
+
+func logEndpointsAndRegisterHandlers(m *mux.Router, route string, handlerMethod func(w http.ResponseWriter, r *http.Request), httpMethod string) {
+	log.Printf("Registering %[1]s %[2]s \n", httpMethod, route)
+	m.HandleFunc(route, handlerMethod).Methods(httpMethod)
 }
 
 type apiHandlers struct {
