@@ -2,13 +2,13 @@ package api
 
 import (
 	"bytes"
-	"path"
 	"code.google.com/p/go-uuid/uuid"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"os"
 	"os/exec"
+	"path"
 )
 
 type GitContentAPI struct {
@@ -44,7 +44,7 @@ func (gci GitContentAPI) Write(c Content) error {
 	var out bytes.Buffer
 	cmd.Stdout = &out
 	cmd.Dir = gci.dir
-	err =  cmd.Run()
+	err = cmd.Run()
 	if err != nil {
 		return fmt.Errorf("command failed with return code %d:\n%s\n", out.String())
 	}
