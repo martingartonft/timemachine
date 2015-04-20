@@ -35,8 +35,8 @@ func main() {
 
 	logEndpointsAndRegisterHandlers(m, "/content/recent", ah.recentHandler, "GET")
 	logEndpointsAndRegisterHandlers(m, "/content/count", ah.countHandler, "GET")
-	logEndpointsAndRegisterHandlers(m, "/content/content/{uuid}", ah.uuidReadHandler, "GET")
-	logEndpointsAndRegisterHandlers(m, "/content/content/{uuid}", ah.idWriteHandler, "PUT")
+	logEndpointsAndRegisterHandlers(m, "/content/{uuid}", ah.uuidReadHandler, "GET")
+	logEndpointsAndRegisterHandlers(m, "/content/{uuid}", ah.idWriteHandler, "PUT")
 	logEndpointsAndRegisterHandlers(m, "/content/", ah.dropHandler, "DELETE")
 	logEndpointsAndRegisterHandlers(m, "/content/", ah.dumpAll, "GET")
 
