@@ -17,6 +17,7 @@ type Content struct {
 type Content struct {
 	//ID            string   `json:"id"`
 	UUID          string    `json:"uuid"`
+	URI           string    `json:"id"`
 	BodyXML       string    `json:"bodyXML,omitempty"`
 	Brands        []string  `json:"brands,omitempty"`
 	Byline        string    `json:"byline,omitempty"`
