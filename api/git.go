@@ -160,6 +160,20 @@ func (gci GitContentAPI) Count() int {
 
 func (gci GitContentAPI) init() error {
 
+	_, err := os.Stat(gci.dir)
+	if err == nil {
+		// already set up
+		return nil
+	}
+	if _, ok := err.(*os.PathError); ok {
+		// assume we need to set up
+		return gci.doInit()
+	}
+	return err
+
+}
+
+func (gci GitContentAPI) doInit() error {
 	if err := os.Mkdir(gci.dir, 0755); err != nil {
 		return err
 	}
@@ -188,9 +202,9 @@ func (gci GitContentAPI) All(stop chan struct{}) (chan Content, error) {
 
 func NewGitContentAPI() (ContentAPI, error) {
 	api := GitContentAPI{"/tmp/gitapi/"}
-	//err := api.init() //TODO: don't drop every time once things are stable.
-	//if err != nil {
-	//	return nil, err
-	//}
+	err := api.init()
+	if err != nil {
+		return nil, err
+	}
 	return api, nil
 }
