@@ -67,7 +67,15 @@ func (gci GitContentAPI) Close() {
 }
 
 func (gci GitContentAPI) Count() int {
-	panic("")
+	count := 0
+	files, _ := ioutil.ReadDir(gci.dir)
+	for _, f := range files {
+		if !f.IsDir() {
+			count++
+		}
+	}
+
+	return count
 }
 
 func (gci GitContentAPI) init() error {
