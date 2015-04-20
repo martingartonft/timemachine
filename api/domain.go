@@ -23,7 +23,7 @@ type Content struct {
 	Byline        string    `json:"byline,omitempty"`
 	PublishedDate time.Time `json:"publishedDate,omitempty"`
 	//RequestUrl    string   `json:"requestUrl"`
-	Title  string `json:"title,omitempty"`
+	Title string `json:"title,omitempty"`
 	//Type   string `json:"type"`
 	WebUrl string `json:"webUrl,omitempty"`
 }

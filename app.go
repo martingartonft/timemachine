@@ -33,7 +33,6 @@ func main() {
 
 	m := mux.NewRouter()
 
-
 	logEndpointsAndRegisterHandlers(m, "/content/recent", ah.recentHandler, "GET")
 	logEndpointsAndRegisterHandlers(m, "/content/count", ah.countHandler, "GET")
 	logEndpointsAndRegisterHandlers(m, "/content/{uuid}", ah.uuidAndDateTimeReadHandler, "GET")
