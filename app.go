@@ -11,7 +11,7 @@ import (
 	"os/signal"
 	"runtime/pprof"
 	"strconv"
-	"timemachineapi/api"
+	"github.com/martingartonft/timemachine/api"
 )
 
 func main() {
