@@ -165,8 +165,7 @@ func (gci GitContentAPI) init() error {
 		// already set up
 		return nil
 	}
-	if _, ok := err.(*os.PathError); ok {
-		// assume we need to set up
+	if os.IsNotExist(err) {
 		return gci.doInit()
 	}
 	return err
