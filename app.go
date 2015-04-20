@@ -12,6 +12,7 @@ import (
 	"os/signal"
 	"runtime/pprof"
 	"strconv"
+	"time"
 )
 
 func main() {
@@ -35,7 +36,8 @@ func main() {
 
 	logEndpointsAndRegisterHandlers(m, "/content/recent", ah.recentHandler, "GET")
 	logEndpointsAndRegisterHandlers(m, "/content/count", ah.countHandler, "GET")
-	logEndpointsAndRegisterHandlers(m, "/content/{uuid}", ah.uuidReadHandler, "GET")
+	//logEndpointsAndRegisterHandlers(m, "/content/{uuid}", ah.uuidReadHandler, "GET")
+	logEndpointsAndRegisterHandlers(m, "/content/{uuid}", ah.uuidAndDateTimeReadHandler, "GET")
 	logEndpointsAndRegisterHandlers(m, "/content/{uuid}", ah.idWriteHandler, "PUT")
 	logEndpointsAndRegisterHandlers(m, "/content/", ah.dropHandler, "DELETE")
 	//logEndpointsAndRegisterHandlers(m, "/content/", ah.dumpAll, "GET")
@@ -82,6 +84,31 @@ func logEndpointsAndRegisterHandlers(m *mux.Router, route string, handlerMethod 
 
 type apiHandlers struct {
 	index api.ContentAPI
+}
+
+func (ah *apiHandlers) uuidAndDateTimeReadHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["uuid"]
+	timestamp := r.URL.Query().Get("atTime")
+
+	timestampAsDateTime, err := time.Parse(time.RFC3339, timestamp)
+	if err != nil {
+		panic(err)
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(fmt.Sprintf("Error parsing timestamp: %s \n", timestamp)))
+		return
+	}
+
+	found, art := ah.index.ByUUIDAndDate(id, timestampAsDateTime)
+	if !found {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte(fmt.Sprintf("content with id %s was not found\n", id)))
+		return
+	}
+	w.Header().Add("Content-Type", "application/json")
+	enc := json.NewEncoder(w)
+	enc.Encode(art)
+
 }
 
 func (ah *apiHandlers) uuidReadHandler(w http.ResponseWriter, r *http.Request) {
