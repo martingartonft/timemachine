@@ -120,7 +120,7 @@ func (gci GitContentAPI) Write(c Content) error {
 		return err
 	}
 
-	// commit it
+	// add to git index
 	cmd := exec.Command("git", "add", filename)
 	var out bytes.Buffer
 	cmd.Stdout = &out
@@ -129,16 +129,20 @@ func (gci GitContentAPI) Write(c Content) error {
 	if err != nil {
 		return fmt.Errorf("git add command failed with error %v:\n%s\n", err, out.String())
 	}
-	cmd = exec.Command("git", "commit", "-m", fmt.Sprintf("adding or updating %s", filename))
+
+	// do commit
+	cmd = exec.Command("git", "commit", "-m", fmt.Sprintf("adding or updating %s", filename),
+		fmt.Sprintf("--date=%s", c.PublishedDate.UTC().Format(time.RFC3339)))
 	out = bytes.Buffer{}
 	cmd.Stdout = &out
+	cmd.Stderr = &out
 	cmd.Dir = gci.dir
 	err = cmd.Run()
 	if err != nil {
 		if strings.Contains(string(out.Bytes()), "nothing to commit, working directory clean") {
 			return nil
 		}
-		return fmt.Errorf("command failed with error %v:\n%s\n", err, out.String())
+		return fmt.Errorf("git commit command failed with error %v:\n%s\n", err, out.String())
 	}
 	return nil
 }
