@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/exec"
 	"path"
+	"strings"
 )
 
 type GitContentAPI struct {
@@ -40,13 +41,24 @@ func (gci GitContentAPI) Write(c Content) error {
 	}
 
 	// commit it
-	cmd := exec.Command("git", "commit", "-m", "foo", "filename")
+	cmd := exec.Command("git", "add", filename)
 	var out bytes.Buffer
 	cmd.Stdout = &out
 	cmd.Dir = gci.dir
 	err = cmd.Run()
 	if err != nil {
-		return fmt.Errorf("command failed with return code %d:\n%s\n", out.String())
+		return fmt.Errorf("git add command failed with error %v:\n%s\n", err, out.String())
+	}
+	cmd = exec.Command("git", "commit", "-m", fmt.Sprintf("adding or updating %s", filename))
+	out = bytes.Buffer{}
+	cmd.Stdout = &out
+	cmd.Dir = gci.dir
+	err = cmd.Run()
+	if err != nil {
+		if strings.Contains(string(out.Bytes()), "nothing to commit, working directory clean") {
+			return nil
+		}
+		return fmt.Errorf("command failed with error %v:\n%s\n", err, out.String())
 	}
 	return nil
 }

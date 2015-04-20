@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
+	"github.com/martingartonft/timemachine/api"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"runtime/pprof"
 	"strconv"
-	"github.com/martingartonft/timemachine/api"
 )
 
 func main() {
