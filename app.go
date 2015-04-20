@@ -32,22 +32,16 @@ func main() {
 	ah := apiHandlers{index}
 
 	m := mux.NewRouter()
-	http.Handle("/", handlers.CombinedLoggingHandler(os.Stdout, m))
+
 
 	logEndpointsAndRegisterHandlers(m, "/content/recent", ah.recentHandler, "GET")
 	logEndpointsAndRegisterHandlers(m, "/content/count", ah.countHandler, "GET")
-	//logEndpointsAndRegisterHandlers(m, "/content/{uuid}", ah.uuidReadHandler, "GET")
 	logEndpointsAndRegisterHandlers(m, "/content/{uuid}", ah.uuidAndDateTimeReadHandler, "GET")
 	logEndpointsAndRegisterHandlers(m, "/content/{uuid}", ah.idWriteHandler, "PUT")
 	logEndpointsAndRegisterHandlers(m, "/content/", ah.dropHandler, "DELETE")
-	//logEndpointsAndRegisterHandlers(m, "/content/", ah.dumpAll, "GET")
 
-	//m.HandleFunc("/content/recent", ah.recentHandler).Methods("GET")
-	//m.HandleFunc("/content/count", ah.countHandler).Methods("GET")
-	//m.HandleFunc("/content/{uuid}", ah.uuidReadHandler).Methods("GET")
-	//m.HandleFunc("/content/{uuid}", ah.idWriteHandler).Methods("PUT")
-	//m.HandleFunc("/content/", ah.dropHandler).Methods("DELETE")
-	//m.HandleFunc("/content/", ah.dumpAll).Methods("GET")
+	m.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
+	http.Handle("/", handlers.CombinedLoggingHandler(os.Stdout, m))
 
 	go func() {
 		port := "8082"
