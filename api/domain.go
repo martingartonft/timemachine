@@ -17,12 +17,12 @@ type Content struct {
 type Content struct {
 	//ID            string   `json:"id"`
 	UUID          string    `json:"uuid"`
-	BodyXML       string    `json:"bodyXML"`
-	Brands        []string  `json:"brands"`
-	Byline        string    `json:"byline"`
-	PublishedDate time.Time `json:"publishedDate"`
+	BodyXML       string    `json:"bodyXML,omitempty"`
+	Brands        []string  `json:"brands,omitempty"`
+	Byline        string    `json:"byline,omitempty"`
+	PublishedDate time.Time `json:"publishedDate,omitempty"`
 	//RequestUrl    string   `json:"requestUrl"`
-	Title  string `json:"title"`
-	Type   string `json:"type"`
-	WebUrl string `json:"webUrl"`
+	Title  string `json:"title,omitempty"`
+	//Type   string `json:"type"`
+	WebUrl string `json:"webUrl,omitempty"`
 }
