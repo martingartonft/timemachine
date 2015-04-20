@@ -1,6 +1,7 @@
 package api
 
 import (
+	"bufio"
 	"bytes"
 	"code.google.com/p/go-uuid/uuid"
 	"encoding/json"
@@ -20,7 +21,6 @@ type GitContentAPI struct {
 
 func (gci GitContentAPI) ByUUID(uuid string) (bool, Content) {
 	var content Content
-	log.Print("Something")
 	bytes, err := ioutil.ReadFile(path.Join(gci.dir, fmt.Sprintf("%s.json", uuid)))
 	if err != nil {
 		panic(err)
@@ -36,7 +36,68 @@ func (gci GitContentAPI) ByUUID(uuid string) (bool, Content) {
 }
 
 func (gci GitContentAPI) ByUUIDAndDate(id string, dateTime time.Time) (bool, Content) {
+	filename := fmt.Sprintf("%s.json", id)
+	cmd := exec.Command("git", "log", "--date=iso", "--pretty=format:%ad%x08%x08%x08%x08%x08%x08 %H", filename) //git log --date=iso --pretty=format:'%ad%x08%x08%x08%x08%x08%x08'
+	var out bytes.Buffer
+	cmd.Stdout = &out
+	cmd.Stderr = &out
+	cmd.Dir = gci.dir
+	err := cmd.Run()
+	if err != nil {
+		log.Fatalf("git log command failed with error %v:\n%s\n", err, out.String())
+		return false, Content{}
+	}
+
+	scanner := bufio.NewScanner(&out)
+	for scanner.Scan() {
+		line := scanner.Text()
+		if containsDateTime(line, dateTime) {
+			gitData := strings.Split(line, " ")
+			log.Printf("Git Data is %v\n", gitData)
+			return true, gci.contentByGitHash(id, gitData[3]) // Why gitData[3] and why not gitData[2]
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+
 	return gci.ByUUID(id)
+}
+
+func (gci GitContentAPI) contentByGitHash(id string, hash string) Content {
+	log.Printf("Returning content:%s @ version: %s\n", id, hash)
+
+	filename := fmt.Sprintf("%s.json", id)
+	cmd := exec.Command("git", "show", hash+":"+filename) //git show 0718a08eea5480ce0eed731a5d3157086548e3d8:c5a98003-0a8c-4fd0-9707-df880e1627b5.json
+	var out bytes.Buffer
+	cmd.Stdout = &out
+	cmd.Stderr = &out
+	cmd.Dir = gci.dir
+	err := cmd.Run()
+	if err != nil {
+		log.Fatalf("git show command failed with error %v:\n%s\n", err, out.String())
+		return Content{}
+	}
+
+	var content Content
+	err = json.Unmarshal(out.Bytes(), &content)
+	if err != nil {
+		log.Fatalf("git show command failed with error %v:\n%s\n", err, out.String())
+	}
+	return content
+
+}
+
+func containsDateTime(item string, dateTime time.Time) bool {
+	items := strings.Split(strings.Trim(item, "'"), " ")
+	commitDateTime, err := time.Parse(time.RFC3339, items[0]+"T"+items[1]+"Z")
+	if err != nil {
+		log.Printf("Error when parsing date time %v\n", err)
+	}
+
+	return dateTime.After(commitDateTime) || dateTime.Equal(commitDateTime)
+
 }
 
 func (gci GitContentAPI) Write(c Content) error {
