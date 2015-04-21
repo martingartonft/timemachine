@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/handlers"
-	"github.com/hoisie/mustache"
 	"github.com/gorilla/mux"
+	"github.com/hoisie/mustache"
 	"github.com/martingartonft/timemachine/api"
 	"io"
 	"log"
@@ -14,8 +14,8 @@ import (
 	"os/signal"
 	"runtime/pprof"
 	"strconv"
-	"time"
 	"strings"
+	"time"
 )
 
 func main() {
@@ -282,11 +282,17 @@ func (ah *apiHandlers) dumpAllHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (ah *apiHandlers) indexHandler(w http.ResponseWriter, r *http.Request) {
-	f, err := os.Open("static/index.html")
+	allContent, err := ah.index.All()
 	if err != nil {
-		log.Fatal(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
-	io.Copy(w, f)
+	vars := make(map[string]interface{})
+	vars["content"] = allContent
+	fmt.Printf("CONT:%v\n", vars)
+	w.Header().Add("Content-Type", "text/html")
+	s := mustache.RenderFile("static/index.html", vars)
+	io.Copy(w, strings.NewReader(s))
 }
 
 func (ah *apiHandlers) countHandler(w http.ResponseWriter, r *http.Request) {
