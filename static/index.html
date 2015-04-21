@@ -1,101 +1,109 @@
 <!DOCTYPE html>
 <html class="core o-hoverable-on">
 <head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<title>FT Time Machine</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>FT Time Machine</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-	<!--
-		Perform your cuts the mustard test.
-		For information about what features come bundled with other
-		features in all browsers, see caniuse.com
-	-->
-	<script>
-		var cutsTheMustard = ('querySelector' in document && 'localStorage' in window && 'addEventListener' in window);
+    <!--
+        Perform your cuts the mustard test.
+        For information about what features come bundled with other
+        features in all browsers, see caniuse.com
+    -->
+    <script>
+        var cutsTheMustard = ('querySelector' in document && 'localStorage' in window && 'addEventListener' in window);
 
-		if (cutsTheMustard) {
-			// Swap the `core` class on the HTML element for an `enhanced` one
-			// We're doing it early in the head to avoid a flash of unstyled content
-			document.documentElement.className = document.documentElement.className.replace(/\bcore\b/g, 'enhanced');
-		}
-	</script>
+        if (cutsTheMustard) {
+            // Swap the `core` class on the HTML element for an `enhanced` one
+            // We're doing it early in the head to avoid a flash of unstyled content
+            document.documentElement.className = document.documentElement.className.replace(/\bcore\b/g, 'enhanced');
+        }
+    </script>
 
-	<style>
-		/* Hide any enhanced experience content when in core mode, and vice versa. */
-		.core .o--if-js,
-		.enhanced .o--if-no-js { display: none !important; }
+    <style>
+        /* Hide any enhanced experience content when in core mode, and vice versa. */
+        .core .o--if-js,
+        .enhanced .o--if-no-js {
+            display: none !important;
+        }
 
-		html {
-			/* Set a font family on the whole document */
-			font-family: BentonSans, sans-serif;
-		
-			/* Prevent navigation menus from creating
-			   extra space on sides of the page */
-			overflow-x: hidden;
-		}
+        html {
+            /* Set a font family on the whole document */
+            font-family: BentonSans, sans-serif;
 
-		body {
-			/* Remove space around the document */
-			margin: 0;
-		}
+            /* Prevent navigation menus from creating
+               extra space on sides of the page */
+            overflow-x: hidden;
+        }
 
-		/* Add any other inline styles here */
-	</style>
+        body {
+            /* Remove space around the document */
+            margin: 0;
+        }
 
-	<!-- Load the Origami stylesheet -->
-	<link rel="stylesheet" href="https://build.origami.ft.com/bundles/css?modules=o-grid,o-header,o-footer,o-typography,o-ft-icons,o-fonts,o-forms,o-buttons,o-colors" />
+        /* Add any other inline styles here */
+    </style>
 
-	<!--
-		Unconditionally load the polyfill service to provide the best support
-		possible for modern web standards.
-		Only features missing in this user agent will be filled.
-		If you want, you can provide a list of features to polyfill, otherwise
-		all features that can be polyfilled will be.
-		See the polyfill service home page for more details:
-		https://cdn.polyfill.io/
-	-->
-	<script src="https://polyfill.webservices.ft.com/v1/polyfill.min.js"></script>
+    <!-- Load the Origami stylesheet -->
+    <link rel="stylesheet"
+          href="https://build.origami.ft.com/bundles/css?modules=o-grid,o-header,o-footer,o-typography,o-ft-icons,o-fonts,o-forms,o-buttons,o-colors"/>
 
-	<!--
-		Load main JavaScript bundle (asynchronously, to make sure it's non-blocking).
-	-->
-	<script>
-		(function(src) {
-			if (cutsTheMustard) {
-				var o = document.createElement('script');
-				o.async = o.defer = true;
-				o.src = src;
-				var s = document.getElementsByTagName('script')[0];
-				s.parentNode.insertBefore(o, s);
-			}
-		}('https://build.origami.ft.com/bundles/js?modules=o-grid,o-header,o-footer,o-typography,o-ft-icons,o-fonts,o-forms,o-buttons,o-colors'));
-	</script>
+    <!--
+        Unconditionally load the polyfill service to provide the best support
+        possible for modern web standards.
+        Only features missing in this user agent will be filled.
+        If you want, you can provide a list of features to polyfill, otherwise
+        all features that can be polyfilled will be.
+        See the polyfill service home page for more details:
+        https://cdn.polyfill.io/
+    -->
+    <script src="https://polyfill.webservices.ft.com/v1/polyfill.min.js"></script>
+
+    <!--
+        Load main JavaScript bundle (asynchronously, to make sure it's non-blocking).
+    -->
+    <script>
+        (function (src) {
+            if (cutsTheMustard) {
+                var o = document.createElement('script');
+                o.async = o.defer = true;
+                o.src = src;
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(o, s);
+            }
+        }('https://build.origami.ft.com/bundles/js?modules=o-grid,o-header,o-footer,o-typography,o-ft-icons,o-fonts,o-forms,o-buttons,o-colors'));
+    </script>
 </head>
 <body class="o-colors-page-background o-colors-page-text">
 
 <header data-o-component="o-header" class="o-header o-header--tall">
-	<div class="o-header__container">
-		<div class="o-header__inner">
-			<div class="o-header__primary">
-				<div class="o-header__primary__left">
-	<a href="http://www.ft.com" class="o-header__logo o-header__logo--ft">
-		<abbr title="Financial Times">FT</abbr>
-		<h1 class="o-header__title">Time Machine</h1>
-	</a>
-	</div>
-	<div class="o-header__primary__center"><h2 class="o-header__tagline">Article changes and publishes over time</h2></div>
+    <div class="o-header__container">
+        <div class="o-header__inner">
+            <div class="o-header__primary">
+                <div class="o-header__primary__left">
+                    <a href="http://www.ft.com" class="o-header__logo o-header__logo--ft">
+                        <abbr title="Financial Times">FT</abbr>
 
-			</div>
-		</div>
-	</div>
+                        <h1 class="o-header__title">Time Machine</h1>
+                    </a>
+                </div>
+                <div class="o-header__primary__center"><h2 class="o-header__tagline">Article changes and publishes over
+                    time</h2></div>
+
+            </div>
+        </div>
+    </div>
 </header>
 
 <div id="content-list">
     <ul>
-	{{#content}}
-	<li><h3 class="next-card--article__headline"><a href="/article/{{UUID}}" class="next-card--article__link"><p>{{Title}}</p></a></h3><p>{{PublishedDate}}</p></li>
-	  {{/content}}
+        {{#content}}
+        <li>
+            <h3 class="next-card--article__headline"><a href="/article/{{UUID}}" class="next-card--article__link"><p>
+                {{Title}}</p></a></h3>
+            <p>{{PublishedDate}}</p></li>
+        {{/content}}
     </ul>
 </div>
 <footer class="o-footer" data-o-component="o-footer">
@@ -104,16 +112,25 @@
             <h3 class="o-footer__title">Sections</h3>
             <ul class="o-footer__row o-footer__section-list">
                 <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com">Home</a></li>
-                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/world/uk">UK</a></li>
-                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/world">World</a></li>
-                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/companies">Companies</a></li>
-                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/markets">Markets</a></li>
-                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/global-economy">Global Economy</a></li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/world/uk">UK</a>
+                </li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/world">World</a>
+                </li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/companies">Companies</a>
+                </li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a
+                        href="//www.ft.com/markets">Markets</a></li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/global-economy">Global
+                    Economy</a></li>
                 <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/lex">Lex</a></li>
-                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/comment">Comment</a></li>
-                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/management">Management</a></li>
-                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/personal-finance">Personal Finance</a></li>
-                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/life-arts">Life &amp; Arts</a></li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a
+                        href="//www.ft.com/comment">Comment</a></li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/management">Management</a>
+                </li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/personal-finance">Personal
+                    Finance</a></li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/life-arts">Life
+                    &amp; Arts</a></li>
             </ul>
         </div>
     </nav>
