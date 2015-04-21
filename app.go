@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/handlers"
-	"github.com/hoisie/mustache"
 	"github.com/gorilla/mux"
+	"github.com/hoisie/mustache"
 	"github.com/martingartonft/timemachine/api"
 	"io"
 	"log"
@@ -14,8 +14,8 @@ import (
 	"os/signal"
 	"runtime/pprof"
 	"strconv"
-	"time"
 	"strings"
+	"time"
 )
 
 func main() {
