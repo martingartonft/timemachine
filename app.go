@@ -225,6 +225,7 @@ func (ah *apiHandlers) dumpAllHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	w.Header().Add("Content-Type", "application/json")
 	for _, content := range allContent {
 		if first {
 			fmt.Fprint(w, "[\n")
