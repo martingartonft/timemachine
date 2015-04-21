@@ -34,22 +34,21 @@ type importerContent struct {
 func main() {
 	//	uuids := []string{"16551bd2-5960-4cf3-a8fa-db4707df470c"}
 	uuids := []string{
-		"b808e3a2-e740-11e4-8e3f-00144feab7de",
+		"f00dfbc8-e4d6-11e4-8b61-00144feab7de",
+		"a4013768-e7e7-11e4-894a-00144feab7de",
+		"fb1469fc-e7f7-11e4-894a-00144feab7de",
 		"2e61fc44-e761-11e4-a01c-00144feab7de",
-		"d8cf7278-e75d-11e4-a01c-00144feab7de",
-		"e258a2b0-e76c-11e4-a01c-00144feab7de",
-		"66b43544-e739-11e4-a01c-00144feab7de",
-		"1f74fac0-e74c-11e4-8e3f-00144feab7de",
-		"533012c6-e74e-11e4-8e3f-00144feab7de",
-		"77b19124-e76c-11e4-8e3f-00144feab7de",
-		"563485b4-e745-11e4-8e3f-00144feab7de",
-		"b0414178-e73b-11e4-a01c-00144feab7de",
-		"056f148a-e751-11e4-a01c-00144feab7de",
-		"96544f60-e3f0-11e4-9a82-00144feab7de",
-		"80eeb418-e700-11e4-9fa1-00144feab7de",
+		"872fd0cc-e7f6-11e4-9960-00144feab7de",
+		"e5cf8b74-e7f9-11e4-894a-00144feab7de",
+		"a88667a8-e7f7-11e4-894a-00144feab7de",
+		"75ef1d94-e784-11e4-8ebb-00144feab7de",
+		"a7c21a68-e515-11e4-bb4b-00144feab7de",
+		"658529e4-e7f2-11e4-9960-00144feab7de",
+		"726977dc-e76b-11e4-a01c-00144feab7de",
+		"d65bbf32-e7b3-11e4-8e3f-00144feab7de",
 		"9fe1a040-debf-11e4-8a01-00144feab7de",
-		"946a1d42-e1f2-11e4-9995-00144feab7de",
-		"1c1ed6a8-e75f-11e4-a01c-00144feab7de",
+		"c1823f5a-e489-11e4-9039-00144feab7de",
+		"e09b49d6-e1fa-11e4-bb7f-00144feab7de",
 	}
 
 	eomFileJsons := make(chan string, 16)
