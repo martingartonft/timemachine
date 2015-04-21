@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="core o-hoverable-on">
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <title>FT Time Machine</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <!--
         Perform your cuts the mustard test.
@@ -24,7 +24,9 @@
     <style>
         /* Hide any enhanced experience content when in core mode, and vice versa. */
         .core .o--if-js,
-        .enhanced .o--if-no-js { display: none !important; }
+        .enhanced .o--if-no-js {
+            display: none !important;
+        }
 
         html {
             /* Set a font family on the whole document */
@@ -44,7 +46,8 @@
     </style>
 
     <!-- Load the Origami stylesheet -->
-    <link rel="stylesheet" href="https://build.origami.ft.com/bundles/css?modules=o-grid,o-header,o-footer,o-typography,o-ft-icons,o-fonts,o-forms,o-buttons,o-colors" />
+    <link rel="stylesheet"
+          href="https://build.origami.ft.com/bundles/css?modules=o-grid,o-header,o-footer,o-typography,o-ft-icons,o-fonts,o-forms,o-buttons,o-colors"/>
 
     <!--
         Unconditionally load the polyfill service to provide the best support
@@ -61,7 +64,7 @@
         Load main JavaScript bundle (asynchronously, to make sure it's non-blocking).
     -->
     <script>
-        (function(src) {
+        (function (src) {
             if (cutsTheMustard) {
                 var o = document.createElement('script');
                 o.async = o.defer = true;
@@ -80,10 +83,12 @@
                 <div class="o-header__primary__left">
                     <a href="http://www.ft.com" class="o-header__logo o-header__logo--ft">
                         <abbr title="Financial Times">FT</abbr>
+
                         <h1 class="o-header__title">Time Machine</h1>
                     </a>
                 </div>
-                <div class="o-header__primary__center"><h2 class="o-header__tagline">Article changes and publishes over time</h2></div>
+                <div class="o-header__primary__center"><h2 class="o-header__tagline">Article changes and publishes over
+                    time</h2></div>
 
             </div>
         </div>
@@ -96,12 +101,24 @@
     {{/versions}}
 </div>
 
-<div id="content" data-uuid="{{art.UUID}}">
-    <p id="Title">{{art.Title}}</p>
-    <p id="Byline">{{art.Byline}}</p>
-    <p id="PublishedDate">{{art.PublishedDate}}</p>
-    <div id="body">{{{art.BodyXML}}}</div>
-</div>
+<article class="article">
+
+    <div id="content" data-uuid="{{art.UUID}}">
+
+        <h3 class="article__title">{{art.Title}}</h3>
+
+        <p id="Byline">{{art.Byline}}</p>
+
+        <p id="PublishedDate">{{art.PublishedDate}}</p>
+
+        <div data-o-grid-colspan="12 L8 XL7 XLoffset1">
+            <div class="article__body">
+                <div id="body">{{{art.BodyXML}}}</div>
+            </div>
+        </div>
+
+    </div>
+</article>
 <!--
     Grab the markup for Origami components from
     http://registry.origami.ft.com/components
@@ -119,41 +136,5 @@
     </div>
 </div>
 -->
-
-<footer class="o-footer" data-o-component="o-footer">
-    <nav class="o-footer__row">
-        <div class="o-footer__col o-footer__col--full-width">
-            <h3 class="o-footer__title">Sections</h3>
-            <ul class="o-footer__row o-footer__section-list">
-                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com">Home</a></li>
-                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/world/uk">UK</a></li>
-                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/world">World</a></li>
-                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/companies">Companies</a></li>
-                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/markets">Markets</a></li>
-                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/global-economy">Global Economy</a></li>
-                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/lex">Lex</a></li>
-                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/comment">Comment</a></li>
-                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/management">Management</a></li>
-                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/personal-finance">Personal Finance</a></li>
-                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/life-arts">Life &amp; Arts</a></li>
-            </ul>
-        </div>
-    </nav>
-    </div>
-    <div class="o-footer__row o-footer__copyright">
-        <div class="o-footer__col o-footer__col--full-width">
-            <span>&#xA9; THE FINANCIAL TIMES LTD 2015.</span>
-            <span><abbr title="Financial Times">FT</abbr> and &#x2018;Financial Times&#x2019; are trademarks of The Financial Times Ltd.</span>
-        </div>
-    </div>
-    <div class="o-footer__pearson">
-        <div class="o-footer__row">
-            <div class="o-footer__col o-footer__col--full-width">
-                <div class="o-footer__pearson-tagline" aria-label="Always Learning"></div>
-                <div class="o-footer__pearson-logo" aria-label="Pearson"></div>
-            </div>
-        </div>
-    </div>
-</footer>
 </body>
 </html>
