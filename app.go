@@ -6,6 +6,7 @@ import (
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/martingartonft/timemachine/api"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -41,8 +42,8 @@ func main() {
 	logEndpointsAndRegisterHandlers(m, "/content/{uuid}", ah.idWriteHandler, "PUT")
 	logEndpointsAndRegisterHandlers(m, "/content/", ah.dropHandler, "DELETE")
 	logEndpointsAndRegisterHandlers(m, "/content/", ah.dumpAllHandler, "GET")
+	logEndpointsAndRegisterHandlers(m, "/", ah.indexHandler, "GET")
 
-	m.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 	http.Handle("/", handlers.CombinedLoggingHandler(os.Stdout, m))
 
 	go func() {
@@ -236,6 +237,14 @@ func (ah *apiHandlers) dumpAllHandler(w http.ResponseWriter, r *http.Request) {
 		enc.Encode(content)
 	}
 	fmt.Fprintf(w, "]")
+}
+
+func (ah *apiHandlers) indexHandler(w http.ResponseWriter, r *http.Request) {
+	f, err := os.Open("static/index.html")
+	if err != nil {
+		log.Fatal(err)
+	}
+	io.Copy(w, f)
 }
 
 func (ah *apiHandlers) countHandler(w http.ResponseWriter, r *http.Request) {
