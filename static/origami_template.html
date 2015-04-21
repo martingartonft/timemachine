@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html class="core o-hoverable-on">
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<title>Origami template</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<!--
+		Perform your cuts the mustard test.
+		For information about what features come bundled with other
+		features in all browsers, see caniuse.com
+	-->
+	<script>
+		var cutsTheMustard = ('querySelector' in document && 'localStorage' in window && 'addEventListener' in window);
+
+		if (cutsTheMustard) {
+			// Swap the `core` class on the HTML element for an `enhanced` one
+			// We're doing it early in the head to avoid a flash of unstyled content
+			document.documentElement.className = document.documentElement.className.replace(/\bcore\b/g, 'enhanced');
+		}
+	</script>
+
+	<style>
+		/* Hide any enhanced experience content when in core mode, and vice versa. */
+		.core .o--if-js,
+		.enhanced .o--if-no-js { display: none !important; }
+
+		html {
+			/* Set a font family on the whole document */
+			font-family: BentonSans, sans-serif;
+		
+			/* Prevent navigation menus from creating
+			   extra space on sides of the page */
+			overflow-x: hidden;
+		}
+
+		body {
+			/* Remove space around the document */
+			margin: 0;
+		}
+
+		/* Add any other inline styles here */
+	</style>
+
+	<!-- Load the Origami stylesheet -->
+	<link rel="stylesheet" href="https://build.origami.ft.com/bundles/css?modules=o-grid,o-header,o-footer,o-typography,o-ft-icons,o-fonts,o-forms,o-buttons,o-colors" />
+
+	<!--
+		Unconditionally load the polyfill service to provide the best support
+		possible for modern web standards.
+		Only features missing in this user agent will be filled.
+		If you want, you can provide a list of features to polyfill, otherwise
+		all features that can be polyfilled will be.
+		See the polyfill service home page for more details:
+		https://cdn.polyfill.io/
+	-->
+	<script src="https://polyfill.webservices.ft.com/v1/polyfill.min.js"></script>
+
+	<!--
+		Load main JavaScript bundle (asynchronously, to make sure it's non-blocking).
+	-->
+	<script>
+		(function(src) {
+			if (cutsTheMustard) {
+				var o = document.createElement('script');
+				o.async = o.defer = true;
+				o.src = src;
+				var s = document.getElementsByTagName('script')[0];
+				s.parentNode.insertBefore(o, s);
+			}
+		}('https://build.origami.ft.com/bundles/js?modules=o-grid,o-header,o-footer,o-typography,o-ft-icons,o-fonts,o-forms,o-buttons,o-colors'));
+	</script>
+</head>
+<body class="o-colors-page-background o-colors-page-text">
+
+	<!--
+		Grab the markup for Origami components from
+		http://registry.origami.ft.com/components
+		and paste it here
+	-->
+	<div class="o-grid-row">
+		<div data-o-grid-colspan="full-width M8 L6 Mcenter">
+			<h1 class="o-typography-heading1">You may start hacking… now!</h1>
+			<p>Questions about Origami? Ask us anything: <a href="mailto:alberto.elias@ft.com">Alberto</a>, <a href="mailto:andrew.betts@ft.com">Andrew</a>, <a href="mailto:kaelig.deloumeau@ft.com">Kaelig</a> or <a href="mailto:samuel.giles@ft.com">Sam</a>.</p>
+			<p>This demo page uses a few components: o-grid, o-buttons, o-colors and o-typography. Browse through all available components:</p>
+			<p>
+				<a class="o-buttons o-buttons--big o-buttons--standout" href="http://registry.origami.ft.com/components" target="_blank">Origami registry »</a>
+			</p>
+		</div>
+	</div>
+	
+</body>
+</html>
