@@ -33,3 +33,19 @@ type Version struct {
 	Version       string    `json:"version"`
 	PublishedDate time.Time `json:"publishedDate,omitempty"`
 }
+
+type Versions []Version
+
+func (v Versions) Len() int {
+	return len(v)
+}
+
+func (v Versions) Less(a int, b int) bool {
+	da := v[a].PublishedDate
+	db := v[b].PublishedDate
+	return da.Before(db)
+}
+
+func (v Versions) Swap(a int, b int) {
+	v[a], v[b] = v[b], v[a]
+}
