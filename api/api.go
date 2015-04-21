@@ -12,7 +12,7 @@ type ContentAPI interface {
 	Versions(uuid string) []Version
 	Version(uuid string, versionid string) (bool, Content)
 	Write(c Content) error
-	All(stopchan chan struct{}) (chan Content, error)
+	All() ([]Content, error)
 	Recent(stopChan chan struct{}, limit int) (chan Content, error)
 	Drop() error
 	Close()

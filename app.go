@@ -40,6 +40,7 @@ func main() {
 	logEndpointsAndRegisterHandlers(m, "/content/{uuid}", ah.uuidAndDateTimeReadHandler, "GET")
 	logEndpointsAndRegisterHandlers(m, "/content/{uuid}", ah.idWriteHandler, "PUT")
 	logEndpointsAndRegisterHandlers(m, "/content/", ah.dropHandler, "DELETE")
+	logEndpointsAndRegisterHandlers(m, "/content/", ah.dumpAllHandler, "GET")
 
 	m.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 	http.Handle("/", handlers.CombinedLoggingHandler(os.Stdout, m))
@@ -216,17 +217,15 @@ func (ah *apiHandlers) recentHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "]")
 }
 
-func (ah *apiHandlers) dumpAll(w http.ResponseWriter, r *http.Request) {
+func (ah *apiHandlers) dumpAllHandler(w http.ResponseWriter, r *http.Request) {
 	first := true
 	enc := json.NewEncoder(w)
-	stop := make(chan struct{})
-	defer close(stop)
-	allContent, err := ah.index.All(stop)
+	allContent, err := ah.index.All()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	for content := range allContent {
+	for _, content := range allContent {
 		if first {
 			fmt.Fprint(w, "[\n")
 			first = false

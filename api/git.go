@@ -238,8 +238,35 @@ func (gci GitContentAPI) Recent(stop chan struct{}, limit int) (chan Content, er
 	panic("")
 }
 
-func (gci GitContentAPI) All(stop chan struct{}) (chan Content, error) {
-	panic("")
+func (gci GitContentAPI) All() ([]Content, error) {
+	cmd := exec.Command("ls")
+	var out bytes.Buffer
+	cmd.Stdout = &out
+	cmd.Stderr = &out
+	cmd.Dir = gci.dir
+	err := cmd.Run()
+	if err != nil {
+		return nil, err
+	}
+
+	var cont []Content
+
+	scanner := bufio.NewScanner(&out)
+	for scanner.Scan() {
+		line := scanner.Text()
+		uuid := strings.Split(line, ".")[0]
+		found, c := gci.ByUUID(uuid)
+		if !found {
+			return nil, fmt.Errorf("failed to find content %s", uuid)
+		}
+		cont = append(cont, c)
+	}
+
+	if err := scanner.Err(); err != nil {
+		return nil, err
+	}
+
+	return cont, nil
 }
 
 func NewGitContentAPI() (ContentAPI, error) {
