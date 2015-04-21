@@ -1,37 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="core o-hoverable-on">
 <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Origami template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <!--
+        Perform your cuts the mustard test.
+        For information about what features come bundled with other
+        features in all browsers, see caniuse.com
+    -->
+    <script>
+        var cutsTheMustard = ('querySelector' in document && 'localStorage' in window && 'addEventListener' in window);
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+        if (cutsTheMustard) {
+            // Swap the `core` class on the HTML element for an `enhanced` one
+            // We're doing it early in the head to avoid a flash of unstyled content
+            document.documentElement.className = document.documentElement.className.replace(/\bcore\b/g, 'enhanced');
+        }
+    </script>
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>FT Time Machine</title>
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <script src="http://momentjs.com/downloads/moment.js"></script>
-    <script src="//polyfill.webservices.ft.com/v1/polyfill.min.js?features=default"></script>
-    <style>body { margin: 0; } .demo-js .o--if-nojs { display: none; }</style>
-    <script>(function(d) { d.className = d.className + ' demo-js'; })(document.documentElement);</script>
-    <link rel="stylesheet" href="//build.origami.ft.com/bundles/css?modules=o-buttons@2.0.1:/demos/src/demo.scss,o-fonts@^1.4.0,o-ft-icons@^2.3.2">
+    <style>
+        /* Hide any enhanced experience content when in core mode, and vice versa. */
+        .core .o--if-js,
+        .enhanced .o--if-no-js { display: none !important; }
 
+        html {
+            /* Set a font family on the whole document */
+            font-family: BentonSans, sans-serif;
+
+            /* Prevent navigation menus from creating
+               extra space on sides of the page */
+            overflow-x: hidden;
+        }
+
+        body {
+            /* Remove space around the document */
+            margin: 0;
+        }
+
+        /* Add any other inline styles here */
+    </style>
+
+    <!-- Load the Origami stylesheet -->
+    <link rel="stylesheet" href="https://build.origami.ft.com/bundles/css?modules=o-grid,o-header,o-footer,o-typography,o-ft-icons,o-fonts,o-forms,o-buttons,o-colors" />
+
+    <!--
+        Unconditionally load the polyfill service to provide the best support
+        possible for modern web standards.
+        Only features missing in this user agent will be filled.
+        If you want, you can provide a list of features to polyfill, otherwise
+        all features that can be polyfilled will be.
+        See the polyfill service home page for more details:
+        https://cdn.polyfill.io/
+    -->
+    <script src="https://polyfill.webservices.ft.com/v1/polyfill.min.js"></script>
+
+    <!--
+        Load main JavaScript bundle (asynchronously, to make sure it's non-blocking).
+    -->
+    <script>
+        (function(src) {
+            if (cutsTheMustard) {
+                var o = document.createElement('script');
+                o.async = o.defer = true;
+                o.src = src;
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(o, s);
+            }
+        }('https://build.origami.ft.com/bundles/js?modules=o-grid,o-header,o-footer,o-typography,o-ft-icons,o-fonts,o-forms,o-buttons,o-colors'));
+    </script>
 </head>
+<body class="o-hoverable-on o-colors-page-background o-colors-page-text">
+<header data-o-component="o-header" class="o-header o-header--tall">
+    <div class="o-header__container">
+        <div class="o-header__inner">
+            <div class="o-header__primary">
+                <div class="o-header__primary__left">
+                    <a href="http://www.ft.com" class="o-header__logo o-header__logo--ft">
+                        <abbr title="Financial Times">FT</abbr>
+                        <h1 class="o-header__title">Time Machine</h1>
+                    </a>
+                </div>
+                <div class="o-header__primary__center"><h2 class="o-header__tagline">Article changes and publishes over time</h2></div>
+
+            </div>
+        </div>
+    </div>
+</header>
+
 <div class="o-buttons__group">
     {{#versions}}
     <a href="/article/{{UUID}}/versions/{{Version}}" class="o-buttons o-buttons--big">{{PublishedDate}}</a>
     {{/versions}}
 </div>
-<body>
 
 <div id="content" data-uuid="{{art.UUID}}">
     <p id="Title">{{art.Title}}</p>
@@ -39,5 +102,58 @@
     <p id="PublishedDate">{{art.PublishedDate}}</p>
     <p id="Body">{{art.BodyXML}}</p>
 </div>
+<!--
+    Grab the markup for Origami components from
+    http://registry.origami.ft.com/components
+    and paste it here
+-->
+<!--
+<div class="o-grid-row">
+    <div data-o-grid-colspan="full-width M8 L6 Mcenter">
+        <h1 class="o-typography-heading1">You may start hacking… now!</h1>
+        <p>Questions about Origami? Ask us anything: <a href="mailto:alberto.elias@ft.com">Alberto</a>, <a href="mailto:andrew.betts@ft.com">Andrew</a>, <a href="mailto:kaelig.deloumeau@ft.com">Kaelig</a> or <a href="mailto:samuel.giles@ft.com">Sam</a>.</p>
+        <p>This demo page uses a few components: o-grid, o-buttons, o-colors and o-typography. Browse through all available components:</p>
+        <p>
+            <a class="o-buttons o-buttons--big o-buttons--standout" href="http://registry.origami.ft.com/components" target="_blank">Origami registry »</a>
+        </p>
+    </div>
+</div>
+-->
+
+<footer class="o-footer" data-o-component="o-footer">
+    <nav class="o-footer__row">
+        <div class="o-footer__col o-footer__col--full-width">
+            <h3 class="o-footer__title">Sections</h3>
+            <ul class="o-footer__row o-footer__section-list">
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com">Home</a></li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/world/uk">UK</a></li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/world">World</a></li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/companies">Companies</a></li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/markets">Markets</a></li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/global-economy">Global Economy</a></li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/lex">Lex</a></li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/comment">Comment</a></li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/management">Management</a></li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/personal-finance">Personal Finance</a></li>
+                <li class="o-footer__link o-footer__section-link o-footer__col"><a href="//www.ft.com/life-arts">Life &amp; Arts</a></li>
+            </ul>
+        </div>
+    </nav>
+    </div>
+    <div class="o-footer__row o-footer__copyright">
+        <div class="o-footer__col o-footer__col--full-width">
+            <span>&#xA9; THE FINANCIAL TIMES LTD 2015.</span>
+            <span><abbr title="Financial Times">FT</abbr> and &#x2018;Financial Times&#x2019; are trademarks of The Financial Times Ltd.</span>
+        </div>
+    </div>
+    <div class="o-footer__pearson">
+        <div class="o-footer__row">
+            <div class="o-footer__col o-footer__col--full-width">
+                <div class="o-footer__pearson-tagline" aria-label="Always Learning"></div>
+                <div class="o-footer__pearson-logo" aria-label="Pearson"></div>
+            </div>
+        </div>
+    </div>
+</footer>
 </body>
 </html>
