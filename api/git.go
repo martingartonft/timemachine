@@ -128,6 +128,7 @@ func (gci GitContentAPI) Versions(id string) (versions []Version) {
 			UUID:          id,
 			Version:       gitData[3],
 			PublishedDate: pubDate,
+			PDString: pubDate.Local().Format("2006-01-02 15:04:05"),
 		}
 		versions = append(versions, version)
 	}

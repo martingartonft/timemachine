@@ -32,6 +32,7 @@ type Version struct {
 	UUID          string    `json:"uuid"`
 	Version       string    `json:"version"`
 	PublishedDate time.Time `json:"publishedDate,omitempty"`
+	PDString	string `json:"pd-string,omitempty"`
 }
 
 type Contents []Content
