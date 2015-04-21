@@ -47,7 +47,7 @@
 
     <!-- Load the Origami stylesheet -->
     <link rel="stylesheet"
-          href="https://build.origami.ft.com/bundles/css?modules=o-grid,o-header,o-footer,o-typography,o-ft-icons,o-fonts,o-forms,o-buttons,o-colors"/>
+          href="https://build.origami.ft.com/bundles/css?modules=o-grid,o-header,o-footer,o-typography,o-ft-icons,o-fonts,o-forms,o-buttons,o-colors,o-date@1.1.1"/>
 
     <!--
         Unconditionally load the polyfill service to provide the best support
@@ -72,7 +72,7 @@
                 var s = document.getElementsByTagName('script')[0];
                 s.parentNode.insertBefore(o, s);
             }
-        }('https://build.origami.ft.com/bundles/js?modules=o-grid,o-header,o-footer,o-typography,o-ft-icons,o-fonts,o-forms,o-buttons,o-colors'));
+        }('https://build.origami.ft.com/bundles/js?modules=o-grid,o-header,o-footer,o-typography,o-ft-icons,o-fonts,o-forms,o-buttons,o-colors,o-date@1.1.1'));
     </script>
 </head>
 <body class="o-hoverable-on o-colors-page-background o-colors-page-text">
@@ -108,8 +108,7 @@
         <h3 class="article__title">{{art.Title}}</h3>
 
         <p id="Byline">{{art.Byline}}</p>
-
-        <p id="PublishedDate">{{art.PublishedDate}}</p>
+        <time data-o-component="o-date" class="o-date" datetime="{{{art.PublishedDate}}}">{{{art.PublishedDate}}</time>
 
         <div data-o-grid-colspan="12 L8 XL7 XLoffset1">
             <div class="article__body">
