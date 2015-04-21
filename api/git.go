@@ -33,6 +33,8 @@ func (gci GitContentAPI) ByUUID(uuid string) (bool, Content) {
 		return false, Content{}
 	}
 
+	content.PublishedDate = content.PublishedDate.Local()
+
 	return true, content
 }
 
