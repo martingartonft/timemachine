@@ -118,7 +118,6 @@ func (gci GitContentAPI) Versions(id string) (versions []Version) {
 	for scanner.Scan() {
 		line := scanner.Text()
 		gitData := strings.Split(line, " ")
-		log.Printf("Git Data is %v\n", gitData)
 
 		dateString := gitData[0] + " " + gitData[1] + " " + gitData[2]
 		pubDate, err := time.Parse("2006-01-02 15:04:05 -0700", dateString)
