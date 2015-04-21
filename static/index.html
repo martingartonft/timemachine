@@ -25,49 +25,25 @@
         var isoDate = new Date().toISOString();
         var dinosaurAge = new Date(0).toISOString();
         $(function() {
-            $( "#slider" ).slider(
-                {
-                    disable: true,
-                    min: 1,
-                    max: 10,
-                    value: 9,
-                    change: function( event, ui ) {
-                        $( "#changevalue" ).val( "$" + ui.value );
-                    }
+            $.get('/content/', function(data){
+                for(var i=0; i<data.length; i++){
+                    console.log(data[i]);
+                    $("#content-list").append('<li><a href=/content/' + data[i].uuid + '><p>' + data[i].title+ '</p></a><p>' + data[i].publishedDate+ '</p></li>');
                 }
-            );
-
-            $(".btn").click(function(){
-                var uuid = $("#uuid").val();
-                var dateTime = $("#dateTime").val();
-                $.get('/content/' + uuid + "?atTime=" + dateTime, function(data){
-                    alert(data);
-                    $('#Title').text(data.title);
-                    $('#Body').html(data.bodyXML);
-                    $('#Byline').html(data.byline);
-                    $('#PublishedDate').html(data.publishedDate);
-                });
             });
+
+            $('a')
         });
 
     </script>
 </head>
 <!--<div id="slider"></div>-->
 <body>
-    <div class="form-group">
-        <label for="uuid">Content UUID</label>
-        <input type="text" class="form-control" id="uuid" placeholder="c5a98003-0a8c-4fd0-9707-df880e1627b5" value="c5a98003-0a8c-4fd0-9707-df880e1627b5">
-    </div>
-    <div class="form-group">
-        <label for="dateTime">Date</label>
-        <input type="datetime" class="form-control" id="dateTime" placeholder="2015-01-01T00:00:00Z" value="2015-04-20T14:48:31Z">
-    </div>
-    <button type="button" class="btn btn-default">Submit</button>
-<div id="content">
-    <p class="bg-info" id="Title"></p>
-    <p class="bg-info" id="Byline"></p>
-    <p class="bg-info" id="PublishedDate"></p>
-    <p class="bg-info" id="Body"></p>
+
+<div id="content-list">
+    <ul>
+
+    </ul>
 </div>
 </body>
 </html>
