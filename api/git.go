@@ -180,6 +180,7 @@ func (gci GitContentAPI) Write(c Content) error {
 		return fmt.Errorf("git add command failed with error %v:\n%s\n", err, out.String())
 	}
 
+	fmt.Printf("date is %s", c.PublishedDate)
 	// do commit
 	cmd = exec.Command("git", "commit", "-m", fmt.Sprintf("adding or updating %s", filename),
 		fmt.Sprintf("--date=%s", c.PublishedDate.UTC().Format(time.RFC3339)))
