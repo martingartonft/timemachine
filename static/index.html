@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<title>Origami template</title>
+	<title>Article Time Machine</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 	<!--
@@ -74,6 +74,23 @@
 </head>
 <body class="o-colors-page-background o-colors-page-text">
 
+<header data-o-component="o-header" class="o-header o-header--tall">
+	<div class="o-header__container">
+		<div class="o-header__inner">
+			<div class="o-header__primary">
+				<div class="o-header__primary__left">
+	<a href="http://www.ft.com" class="o-header__logo o-header__logo--ft">
+		<abbr title="Financial Times">FT</abbr>
+		<h1 class="o-header__title">Time Machine</h1>
+	</a>
+	</div>
+	<div class="o-header__primary__center"><h2 class="o-header__tagline">Article changes and publishes over time</h2></div>
+
+			</div>
+		</div>
+	</div>
+</header>
+
 <div id="content-list">
     <ul>
 	{{#content}}
@@ -81,22 +98,5 @@
 	  {{/content}}
     </ul>
 </div>
-	<!--
-		Grab the markup for Origami components from
-		http://registry.origami.ft.com/components
-		and paste it here
-	-->
-	<!--
-	<div class="o-grid-row">
-		<div data-o-grid-colspan="full-width M8 L6 Mcenter">
-			<h1 class="o-typography-heading1">You may start hacking… now!</h1>
-			<p>Questions about Origami? Ask us anything: <a href="mailto:alberto.elias@ft.com">Alberto</a>, <a href="mailto:andrew.betts@ft.com">Andrew</a>, <a href="mailto:kaelig.deloumeau@ft.com">Kaelig</a> or <a href="mailto:samuel.giles@ft.com">Sam</a>.</p>
-			<p>This demo page uses a few components: o-grid, o-buttons, o-colors and o-typography. Browse through all available components:</p>
-			<p>
-				<a class="o-buttons o-buttons--big o-buttons--standout" href="http://registry.origami.ft.com/components" target="_blank">Origami registry »</a>
-			</p>
-		</div>
-	</div>
-	-->
 </body>
 </html>
