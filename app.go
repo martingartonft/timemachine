@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/handlers"
+	"github.com/hoisie/mustache"
 	"github.com/gorilla/mux"
 	"github.com/martingartonft/timemachine/api"
 	"log"
@@ -13,6 +14,8 @@ import (
 	"runtime/pprof"
 	"strconv"
 	"time"
+	"io"
+	"strings"
 )
 
 func main() {
@@ -41,6 +44,7 @@ func main() {
 	logEndpointsAndRegisterHandlers(m, "/content/{uuid}", ah.idWriteHandler, "PUT")
 	logEndpointsAndRegisterHandlers(m, "/content/", ah.dropHandler, "DELETE")
 	logEndpointsAndRegisterHandlers(m, "/content/", ah.dumpAllHandler, "GET")
+	logEndpointsAndRegisterHandlers(m, "/article/{uuid}", ah.getArticlePageHandler, "GET")
 
 	m.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 	http.Handle("/", handlers.CombinedLoggingHandler(os.Stdout, m))
@@ -80,6 +84,22 @@ func logEndpointsAndRegisterHandlers(m *mux.Router, route string, handlerMethod 
 
 type apiHandlers struct {
 	index api.ContentAPI
+}
+
+func (ah *apiHandlers) getArticlePageHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	uuid := vars["uuid"]
+
+	found, art := ah.index.ByUUID(uuid)
+	if !found {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte(fmt.Sprintf("content with id %s was not found\n", uuid)))
+		return
+	}
+
+	renderedHTML := mustache.RenderFile("./static/article.html", art)
+
+	io.Copy(w, strings.NewReader(renderedHTML))
 }
 
 func (ah *apiHandlers) versionHandler(w http.ResponseWriter, r *http.Request) {
