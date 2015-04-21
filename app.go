@@ -45,7 +45,7 @@ func main() {
 	logEndpointsAndRegisterHandlers(m, "/content/", ah.dropHandler, "DELETE")
 	logEndpointsAndRegisterHandlers(m, "/content/", ah.dumpAllHandler, "GET")
 	logEndpointsAndRegisterHandlers(m, "/article/{uuid}", ah.getArticlePageHandler, "GET")
-	logEndpointsAndRegisterHandlers(m, "/article/{uuid}/versions/{{version}}", ah.getVersionedArticlePageHandler, "GET")
+	logEndpointsAndRegisterHandlers(m, "/article/{uuid}/versions/{version}", ah.getVersionedArticlePageHandler, "GET")
 	logEndpointsAndRegisterHandlers(m, "/", ah.indexHandler, "GET")
 
 	http.Handle("/", handlers.CombinedLoggingHandler(os.Stdout, m))
@@ -101,9 +101,7 @@ func (ah *apiHandlers) getArticlePageHandler(w http.ResponseWriter, r *http.Requ
 	data := make(map[string]interface{})
 	data["art"] = art
 	data["versions"] = ah.index.Versions(uuid)
-
 	renderedHTML := mustache.RenderFile("./static/article.html", data)
-
 	io.Copy(w, strings.NewReader(renderedHTML))
 }
 
