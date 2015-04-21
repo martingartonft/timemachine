@@ -100,6 +100,45 @@ func containsDateTime(item string, dateTime time.Time) bool {
 
 }
 
+func (gci GitContentAPI) Versions(id string) (versions []Version) {
+	filename := fmt.Sprintf("%s.json", id)
+	cmd := exec.Command("git", "log", "--pretty=format:%ai %H", filename)
+	var out bytes.Buffer
+	cmd.Stdout = &out
+	cmd.Stderr = &out
+	cmd.Dir = gci.dir
+	err := cmd.Run()
+	if err != nil {
+		log.Fatalf("git log command failed with error %v:\n%s\n", err, out.String())
+		return nil
+	}
+
+	scanner := bufio.NewScanner(&out)
+	for scanner.Scan() {
+		line := scanner.Text()
+		gitData := strings.Split(line, " ")
+		log.Printf("Git Data is %v\n", gitData)
+
+		dateString := gitData[0] + " " + gitData[1] + " " + gitData[2]
+		pubDate, err := time.Parse("2006-01-02 15:04:05 -0700", dateString)
+		if err != nil {
+			log.Fatal(err)
+		}
+		version := Version{
+			UUID:          id,
+			Version:       gitData[3],
+			PublishedDate: pubDate,
+		}
+		versions = append(versions, version)
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	return versions
+}
+
 func (gci GitContentAPI) Write(c Content) error {
 	// validate uuid
 	u := uuid.Parse(c.UUID)

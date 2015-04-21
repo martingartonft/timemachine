@@ -9,6 +9,7 @@ type ContentAPI interface {
 	Count() int
 	ByUUID(id string) (bool, Content)
 	ByUUIDAndDate(id string, dateTime time.Time) (bool, Content)
+	Versions(uuud string) []Version
 	Write(c Content) error
 	All(stopchan chan struct{}) (chan Content, error)
 	Recent(stopChan chan struct{}, limit int) (chan Content, error)

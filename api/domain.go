@@ -27,3 +27,9 @@ type Content struct {
 	//Type   string `json:"type"`
 	WebUrl string `json:"webUrl,omitempty"`
 }
+
+type Version struct {
+	UUID          string    `json:"uuid"`
+	Version       string    `json:"version"`
+	PublishedDate time.Time `json:"publishedDate,omitempty"`
+}
