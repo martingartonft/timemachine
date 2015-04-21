@@ -20,7 +20,7 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <script src="http://momentjs.com/downloads/moment.js"></script>
-    <script>
+    <!--<script>
         var tomorrow = moment().add(1, 'days').calendar();
         var isoDate = new Date().toISOString();
         var dinosaurAge = new Date(0).toISOString();
@@ -50,24 +50,16 @@
             });
         });
 
-    </script>
+    </script>-->
 </head>
 <!--<div id="slider"></div>-->
 <body>
-    <div class="form-group">
-        <label for="uuid">Content UUID</label>
-        <input type="text" class="form-control" id="uuid" placeholder="c5a98003-0a8c-4fd0-9707-df880e1627b5" value="c5a98003-0a8c-4fd0-9707-df880e1627b5">
-    </div>
-    <div class="form-group">
-        <label for="dateTime">Date</label>
-        <input type="datetime" class="form-control" id="dateTime" placeholder="2015-01-01T00:00:00Z" value="2015-04-20T14:48:31Z">
-    </div>
-    <button type="button" class="btn btn-default">Submit</button>
+
 <div id="content">
-    <p class="bg-info" id="Title"></p>
-    <p class="bg-info" id="Byline"></p>
-    <p class="bg-info" id="PublishedDate"></p>
-    <p class="bg-info" id="Body"></p>
+    <p class="bg-info" id="Title">{{Title}}</p>
+    <p class="bg-info" id="Byline">{{Byline}}</p>
+    <p class="bg-info" id="PublishedDate">{{PublishedDate}}</p>
+    <p class="bg-info" id="Body">{{BodyXML}}</p>
 </div>
 </body>
 </html>
