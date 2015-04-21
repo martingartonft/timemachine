@@ -34,6 +34,22 @@ type Version struct {
 	PublishedDate time.Time `json:"publishedDate,omitempty"`
 }
 
+type Contents []Content
+
+func (c Contents) Len() int {
+	return len(c)
+}
+
+func (c Contents) Less(a int, b int) bool {
+	da := c[a].PublishedDate
+	db := c[b].PublishedDate
+	return da.Before(db)
+}
+
+func (c Contents) Swap(a int, b int) {
+	c[a], c[b] = c[b], c[a]
+}
+
 type Versions []Version
 
 func (v Versions) Len() int {

@@ -269,6 +269,7 @@ func (gci GitContentAPI) All() ([]Content, error) {
 		return nil, err
 	}
 
+	sort.Sort(sort.Reverse(Contents(cont)))
 	return cont, nil
 }
 
