@@ -35,7 +35,8 @@ func main() {
 
 	logEndpointsAndRegisterHandlers(m, "/content/recent", ah.recentHandler, "GET")
 	logEndpointsAndRegisterHandlers(m, "/content/count", ah.countHandler, "GET")
-	logEndpointsAndRegisterHandlers(m, "/content/{uuid}/versions", ah.versionsHandler, "GET")
+	logEndpointsAndRegisterHandlers(m, "/content/{uuid}/versions/", ah.versionsHandler, "GET")
+	logEndpointsAndRegisterHandlers(m, "/content/{uuid}/versions/{ver}", ah.versionHandler, "GET")
 	logEndpointsAndRegisterHandlers(m, "/content/{uuid}", ah.uuidAndDateTimeReadHandler, "GET")
 	logEndpointsAndRegisterHandlers(m, "/content/{uuid}", ah.idWriteHandler, "PUT")
 	logEndpointsAndRegisterHandlers(m, "/content/", ah.dropHandler, "DELETE")
@@ -78,6 +79,23 @@ func logEndpointsAndRegisterHandlers(m *mux.Router, route string, handlerMethod 
 
 type apiHandlers struct {
 	index api.ContentAPI
+}
+
+func (ah *apiHandlers) versionHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	uuid := vars["uuid"]
+	ver := vars["ver"]
+
+	found, art := ah.index.Version(uuid, ver)
+	if !found {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte(fmt.Sprintf("content with uuid %s and version %s was not found\n", uuid, ver)))
+		return
+	}
+	w.Header().Add("Content-Type", "application/json")
+	enc := json.NewEncoder(w)
+	enc.Encode(art)
+
 }
 
 func (ah *apiHandlers) versionsHandler(w http.ResponseWriter, r *http.Request) {

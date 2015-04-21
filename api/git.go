@@ -54,7 +54,7 @@ func (gci GitContentAPI) ByUUIDAndDate(id string, dateTime time.Time) (bool, Con
 		if containsDateTime(line, dateTime) {
 			gitData := strings.Split(line, " ")
 			log.Printf("Git Data is %v\n", gitData)
-			return true, gci.contentByGitHash(id, gitData[3]) // Why gitData[3] and why not gitData[2]
+			return gci.Version(id, gitData[3]) // Why gitData[3] and why not gitData[2]
 		}
 	}
 
@@ -65,7 +65,7 @@ func (gci GitContentAPI) ByUUIDAndDate(id string, dateTime time.Time) (bool, Con
 	return gci.ByUUID(id)
 }
 
-func (gci GitContentAPI) contentByGitHash(id string, hash string) Content {
+func (gci GitContentAPI) Version(id string, hash string) (bool, Content) {
 	log.Printf("Returning content:%s @ version: %s\n", id, hash)
 
 	filename := fmt.Sprintf("%s.json", id)
@@ -76,8 +76,8 @@ func (gci GitContentAPI) contentByGitHash(id string, hash string) Content {
 	cmd.Dir = gci.dir
 	err := cmd.Run()
 	if err != nil {
-		log.Fatalf("git show command failed with error %v:\n%s\n", err, out.String())
-		return Content{}
+		log.Printf("git show command failed with error %v:\n%s\n", err, out.String())
+		return false, Content{}
 	}
 
 	var content Content
@@ -85,7 +85,7 @@ func (gci GitContentAPI) contentByGitHash(id string, hash string) Content {
 	if err != nil {
 		log.Fatalf("git show command failed with error %v:\n%s\n", err, out.String())
 	}
-	return content
+	return true, content
 
 }
 
