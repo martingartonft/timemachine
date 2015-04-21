@@ -124,12 +124,18 @@ func (gci GitContentAPI) Versions(id string) (versions []Version) {
 		if err != nil {
 			log.Fatal(err)
 		}
+		pubDate = pubDate.Local()
 		version := Version{
 			UUID:          id,
 			Version:       gitData[3],
 			PublishedDate: pubDate,
-			PDString: pubDate.Local().Format("2006-01-02 15:04:05"),
+			PDString: pubDate.Format("2006-01-02 15:04:05"),
 		}
+		now := time.Now()
+		if now.Year() == pubDate.Year() && now.Month() == pubDate.Month() && now.Day() == pubDate.Day() {
+			version.PDString = pubDate.Format("15:04:05")
+		}
+
 		versions = append(versions, version)
 	}
 
