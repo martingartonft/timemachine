@@ -11,6 +11,7 @@ import (
 	"os"
 	"os/exec"
 	"path"
+	"sort"
 	"strings"
 	"time"
 )
@@ -135,6 +136,8 @@ func (gci GitContentAPI) Versions(id string) (versions []Version) {
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
 	}
+
+	sort.Sort(Versions(versions))
 
 	return versions
 }
@@ -266,6 +269,7 @@ func (gci GitContentAPI) All() ([]Content, error) {
 		return nil, err
 	}
 
+	sort.Sort(sort.Reverse(Contents(cont)))
 	return cont, nil
 }
 
