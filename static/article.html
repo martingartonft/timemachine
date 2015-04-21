@@ -20,46 +20,24 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <script src="http://momentjs.com/downloads/moment.js"></script>
-    <!--<script>
-        var tomorrow = moment().add(1, 'days').calendar();
-        var isoDate = new Date().toISOString();
-        var dinosaurAge = new Date(0).toISOString();
-        $(function() {
-            $( "#slider" ).slider(
-                {
-                    disable: true,
-                    min: 1,
-                    max: 10,
-                    value: 9,
-                    change: function( event, ui ) {
-                        $( "#changevalue" ).val( "$" + ui.value );
-                    }
-                }
-            );
+    <script src="//polyfill.webservices.ft.com/v1/polyfill.min.js?features=default"></script>
+    <style>body { margin: 0; } .demo-js .o--if-nojs { display: none; }</style>
+    <script>(function(d) { d.className = d.className + ' demo-js'; })(document.documentElement);</script>
+    <link rel="stylesheet" href="//build.origami.ft.com/bundles/css?modules=o-buttons@2.0.1:/demos/src/demo.scss,o-fonts@^1.4.0,o-ft-icons@^2.3.2">
 
-            $(".btn").click(function(){
-                var uuid = $("#uuid").val();
-                var dateTime = $("#dateTime").val();
-                $.get('/content/' + uuid + "?atTime=" + dateTime, function(data){
-                    alert(data);
-                    $('#Title').text(data.title);
-                    $('#Body').html(data.bodyXML);
-                    $('#Byline').html(data.byline);
-                    $('#PublishedDate').html(data.publishedDate);
-                });
-            });
-        });
-
-    </script>-->
 </head>
-<!--<div id="slider"></div>-->
+<div class="o-buttons__group">
+    {{#versions}}
+    <a href="/article/{{UUID}}/versions/{{Version}}" class="o-buttons o-buttons--big">{{PublishedDate}}</a>
+    {{/versions}}
+</div>
 <body>
 
-<div id="content">
-    <p class="bg-info" id="Title">{{Title}}</p>
-    <p class="bg-info" id="Byline">{{Byline}}</p>
-    <p class="bg-info" id="PublishedDate">{{PublishedDate}}</p>
-    <p class="bg-info" id="Body">{{BodyXML}}</p>
+<div id="content" data-uuid="{{art.UUID}}">
+    <p id="Title">{{art.Title}}</p>
+    <p id="Byline">{{art.Byline}}</p>
+    <p id="PublishedDate">{{art.PublishedDate}}</p>
+    <p id="Body">{{art.BodyXML}}</p>
 </div>
 </body>
 </html>

@@ -45,6 +45,7 @@ func main() {
 	logEndpointsAndRegisterHandlers(m, "/content/", ah.dropHandler, "DELETE")
 	logEndpointsAndRegisterHandlers(m, "/content/", ah.dumpAllHandler, "GET")
 	logEndpointsAndRegisterHandlers(m, "/article/{uuid}", ah.getArticlePageHandler, "GET")
+	logEndpointsAndRegisterHandlers(m, "/article/{uuid}/versions/{{version}}", ah.getVersionedArticlePageHandler, "GET")
 	logEndpointsAndRegisterHandlers(m, "/", ah.indexHandler, "GET")
 
 	http.Handle("/", handlers.CombinedLoggingHandler(os.Stdout, m))
@@ -97,7 +98,31 @@ func (ah *apiHandlers) getArticlePageHandler(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	renderedHTML := mustache.RenderFile("./static/article.html", art)
+	data := make(map[string]interface{})
+	data["art"] = art
+	data["versions"] = ah.index.Versions(uuid)
+
+	renderedHTML := mustache.RenderFile("./static/article.html", data)
+
+	io.Copy(w, strings.NewReader(renderedHTML))
+}
+
+func (ah *apiHandlers) getVersionedArticlePageHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	uuid := vars["uuid"]
+	version := vars["version"]
+
+	found, art := ah.index.Version(uuid, version)
+	if !found {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte(fmt.Sprintf("content with id %s was not found\n", uuid)))
+		return
+	}
+
+	data := make(map[string]interface{})
+	data["art"] = art
+	data["versions"] = ah.index.Versions(uuid)
+	renderedHTML := mustache.RenderFile("./static/article.html", data)
 
 	io.Copy(w, strings.NewReader(renderedHTML))
 }
